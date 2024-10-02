@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ProductModule } from './product/product.module';
 import { RouterModule } from '@angular/router';
@@ -8,6 +8,11 @@ import { StoresModule } from './stores/stores.module';
 import { StoresComponent } from './stores/stores.component';
 import { HtmlPracticeModule } from './html-practice/html-practice.module';
 import { HtmlPracticeComponent } from './html-practice/html-practice.component';
+import { WorkflowModule } from './workflow/workflow.module';
+import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+registerLocaleData(localeRu);
 
 @NgModule({
 	declarations: [
@@ -26,14 +31,22 @@ import { HtmlPracticeComponent } from './html-practice/html-practice.component';
 			{
 				path : 'html-practice',
 				component : HtmlPracticeComponent
+			},
+			{
+				path : 'workflow',
+				loadChildren : ()=>import('./workflow/workflow.module').then(m=>m.WorkflowModule)
 			}
 		]),
+		HttpClientModule,
 		BrowserModule,
 		ProductModule,
 		StoresModule,
-		HtmlPracticeModule
+		HtmlPracticeModule,
+		WorkflowModule
 	],
-	providers: [],
+	providers: [
+		{ provide: LOCALE_ID, useValue: 'ru' }
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

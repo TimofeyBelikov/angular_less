@@ -1,0 +1,91 @@
+// Контейнер со статистикой коммитов
+.contributors-list{
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .contributor-item{
+        border-radius: 25px;
+        display: flex;
+        flex-direction: row;
+        margin: 1rem;
+        // border-radius: 25px;
+        align-items: center;
+        padding : 1rem;
+        background-color:gainsboro;
+
+        .profile-creds{
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            
+
+            .profile-img{
+                margin-right: .75rem;
+                width: 50px;
+                height: 50px;
+            }
+        }
+        .stats{
+            span{
+                font-weight: 900;
+                font-size: x-large;
+            }
+        }
+    }
+}
+
+
+// Контенер со списоком коммитов
+.commits-list{
+    display: flex;
+    flex-direction: column;
+
+    // Карточка коммита
+    .commit-item{
+        display: flex;
+        // height: 100px;
+        flex-direction: row;
+        margin: 1rem;
+        padding : 1rem;
+        border-radius: 25px;
+        background-color:gainsboro;
+        justify-content: space-between;
+        
+        // Заголовок
+        .header{
+            display: inline-flex;
+            flex-direction: row;
+            height: min-content;
+            // border-radius: 15px;
+            // background-color: rgba(255, 255, 255, 0.334);
+            width: 400px;
+            
+            .profile-creds{
+                display: inline-flex;
+                flex-direction: row;
+                align-items: center;
+                .profile-img{
+                    margin-right: .75rem;
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+            
+        }
+
+        .message{
+            align-items: start;
+            align-self: center;
+            flex-grow: 1;
+            span{
+                font-size: large;
+            }
+        }
+    }
+}
+
+.sep{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}

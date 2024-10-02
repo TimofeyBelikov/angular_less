@@ -1,0 +1,54 @@
+<div class="contributors-list">
+    <div class="contributor-item" 
+        *ngFor="let contributor of contributors">
+        <div class="profile-creds">
+            <img class="profile-img" 
+                [src]="contributor?.avatar_url">
+
+            <span style="
+                font-size: larger; 
+                font-weight: 900;">
+                {{contributor?.login}}
+            </span>
+        </div>
+        <mat-divider class="sep" 
+            role="separator" [vertical]="true">
+        </mat-divider>
+        <div class="stats">
+            <span>
+                x {{contributor.contributions}}
+            </span>
+            
+        </div>
+    </div>
+</div>
+
+<div class="commits-list">
+    <div class="commit-item" 
+        *ngFor="let commit of commits">
+        <div class="header">
+            <span style="
+                font-size: larger; 
+                font-weight: 900; 
+                align-self: center;">            
+                {{commit?.commit?.author?.date | date:'M/d/yy, h:mm a' }}
+            </span>
+            <mat-divider class="sep" 
+                role="separator" [vertical]="true">
+            </mat-divider>
+            <div class="profile-creds">
+                <img class="profile-img" 
+                    [src]="commit?.author?.avatar_url">
+                <span style="font-size: larger; font-weight: 900;">
+                    {{commit?.author?.login}}
+                </span>
+            </div>
+        </div>
+
+        <div class="message">
+            <span>
+                {{commit?.commit?.message}}
+            </span>
+        </div>
+    </div>
+</div>
