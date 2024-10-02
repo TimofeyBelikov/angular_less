@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { ProductComponent } from './product/product.component';
 import { StoresModule } from './stores/stores.module';
 import { StoresComponent } from './stores/stores.component';
+import { HtmlPracticeModule } from './html-practice/html-practice.module';
+import { HtmlPracticeComponent } from './html-practice/html-practice.component';
 
 @NgModule({
 	declarations: [
@@ -20,11 +22,16 @@ import { StoresComponent } from './stores/stores.component';
 			{
 				path : 'stores',
 				component : StoresComponent
+			},
+			{
+				path : 'html-practice',
+				component : HtmlPracticeComponent
 			}
 		]),
 		BrowserModule,
 		ProductModule,
-		StoresModule
+		StoresModule,
+		HtmlPracticeModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

@@ -1,0 +1,22 @@
+<span>HTML-practice component</span>
+
+<ul style="list-style-type: none;">
+    <li style="display: inline-block;" *ngFor="let item of [0,1,2,3,4]">
+        <a href="" style="padding: 1rem; display: block;">
+            <div style="
+                background-image: url('https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg');
+                display: inline-flex;
+                width: 250px;
+                place-content: center;
+                border-color: black;
+                border-radius: 25px;
+                border-width: 5px;
+                height: 250px;">
+
+                <h1 style="place-self: center;">
+                    Контент {{item}}
+                </h1>
+            </div>
+        </a>
+    </li>   
+</ul>
