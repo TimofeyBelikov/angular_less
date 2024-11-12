@@ -57,9 +57,7 @@ export class GradientService {
 
     // Функция для создания градиента из нескольких оттенков
     generateGradientColors(hex: string, steps: number = 3): string[] {
-        // console.warn('generate colors', hex, steps)
         const { h, s, l } = this.hexToHsl(hex);
-        // console.warn(h,s,l)
         const colors = [];
 
         for (let i = 0; i < steps; i++) {
@@ -68,5 +66,13 @@ export class GradientService {
         }
 
         return colors;
+    }
+
+    genGradientStyle(colors ?: string[]) : string{
+        return `linear-gradient(to bottom, ${colors.join(', ')})`
+    }
+
+    genImageFilter(color : string) : string{
+        return `drop-shadow(0 0 0.75rem ${color})`
     }
 }

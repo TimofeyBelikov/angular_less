@@ -1,94 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { SteamItem, SteamItemsService } from './steam-items.service';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { SteamItem, SteamItemsService, Tag } from './steam-items.service';
 import { GradientService } from './colors.service';
+import { SteamUser, SteamUsers } from './data/users.data';
+import { StringOrder, TagSortOrder } from './data/sort-order.data';
 
 @Component({
     selector: 'steam-items',
     templateUrl: 'steam-items.component.html',
-    styleUrls : ['./steam-items.component.scss']
+    styleUrls : ['./steam-items.component.scss'],
+    encapsulation : ViewEncapsulation.None
 })
 
 export class SteamItemsComponent implements OnInit {
 
+    tagOrder : StringOrder[] = TagSortOrder
+    users : SteamUser[] = SteamUsers
+
     items : SteamItem[] = []
     items_dota : SteamItem[] = []
-    tagOrder : StringOrder[] = [
-        {
-            value : 'Stock',
-            weight : 0
-        },
-        {
-            value : 'Base Grade',
-            weight : .8
-        },
-        {
-            value : 'Industrial Grade',
-            weight : 1
-        },
-        {
-            value : 'Consumer Grade',
-            weight : .9
-        },
-        {
-            value : 'High Grade',
-            weight : 2.2
-        },
-        {
-            value : 'Mil-Spec Grade',
-            weight : 3
-        },
-        {
-            value : 'Industrial Grade',
-            weight : 4
-        },
-        {
-            value : 'Remarkable',
-            weight : 4.1
-        },
-        {
-            value : 'Exceptional',
-            weight : 4.2
-        },
-        {
-            value : 'Restricted',
-            weight : 5
-        },
-        {
-            value : 'Classified',
-            weight : 6
-        },
-        {
-            value : 'Master',
-            weight : 6.6
-        },
-        {
-            value  : 'Covert',
-            weight : 8.1
-        },
-        {
-            value : 'Extraordinary',
-            weight : 8
-        },
-    ]
-    
-    users : SteamUser[] = [
-        {
-            name : 'Max',
-            id : '76561198310808224'
-        },
-        {
-            name : 'Tima',
-            id : '76561198268357556'
-        },
-        {
-            name : 'Misha',
-            id : '76561198112108117'
-        }
-    ]
-
-    currentUser : string = "Tima" 
-
-    total_count : number =0
+    currentUser : string = this.users[0].name 
+    total_count : number = 0
 
     constructor(
         private _itemsService : SteamItemsService,
@@ -97,38 +28,43 @@ export class SteamItemsComponent implements OnInit {
 
     ngOnInit() {
         this._loadItems(this.users[0].id)
-        this._loadDotaItems(this.users[0].id)
+        // this._loadDotaItems(this.users[0].id)
     }
 
     private _loadItems(id : string){
         this._itemsService.getItems(id).subscribe((response)=>{
             this.total_count = response.total_inventory_count
             this.items = response.descriptions.map((item : SteamItem)=>
-                ({
-                    icon_url : 'image/' + item.icon_url,
-                    name : item.name,
-                    inspect_url : item?.market_actions?.[0]?.link,
-                    name_color : item?.name_color ? '#'+item?.name_color : '#FFFFFF',
-                    rarity : item?.tags?.find(item=>item.category==='Rarity')?.color ?
-                        '#'+ item?.tags?.find(item=>item.category==='Rarity')?.color : '',
-                    tag_name : item?.tags?.find(item=>item?.category==='Rarity')?.localized_tag_name ?? null
-                })
-            ).map((item : SteamItem)=>({
-                ...item,
-                gradient : this._colorsService.generateGradientColors(
-                    item.rarity, 3
-                ),
-            })).map((item :SteamItem )=>({
-                ...item,
-                gradient_style : this._genGradientStyle(item.gradient).concat(' 1')
-            })).map((item : SteamItem)=>({
-                ...item,
-                image_style :  this._genImageFilter(item.rarity)
-            })).sort((a,b)=>this._sortFn(a,b))
-        
+                this._processItem(item)
+            ).sort((a,b)=>
+                this._sortFn(a,b)
+            )
             console.warn('Данные с сервера', this.items)
         })
+    }
+
+    private _processItem(item : SteamItem) : SteamItem{
+        const inspect_url : string = item?.market_actions?.[0]?.link
+        const name_color : string = item?.name_color ? '#'+item?.name_color : '#FFFFFF'
+        const _rarity_object : Tag = item?.tags?.find(tag=>tag.category==='Rarity')
+        const rarity : string = _rarity_object?.color ? '#'+_rarity_object?.color : ''
+        const tag_name : string = _rarity_object?.localized_tag_name ?? null
         
+        const gradient : string[] = this._colorsService.generateGradientColors(rarity, 3)
+        const gradient_style : string = this._colorsService.genGradientStyle(gradient).concat(' 1')
+        const image_style : string = this._colorsService.genImageFilter(rarity)
+
+        return {
+            icon_url : 'image/' + item.icon_url,
+            name : item.name,
+            inspect_url : inspect_url,
+            name_color : name_color,
+            rarity : rarity,
+            tag_name : tag_name,
+            gradient : gradient,
+            gradient_style : gradient_style,
+            image_style : image_style
+        } 
     }
 
     private _sortFn(a : SteamItem, b : SteamItem) : number{
@@ -144,14 +80,6 @@ export class SteamItemsComponent implements OnInit {
             return 0
         }
         return 0
-    }
-
-    private _genGradientStyle(colors ?: string[]) : string{
-        return `linear-gradient(to bottom, ${colors.join(', ')})`
-    }
-
-    private _genImageFilter(color : string) : string{
-        return `drop-shadow(0 0 0.75rem ${color})`
     }
 
     private _loadDotaItems(id : string){
@@ -189,12 +117,5 @@ export class SteamItemsComponent implements OnInit {
     }
 }
 
-interface SteamUser{
-    name : string,
-    id : string
-}
 
-interface StringOrder{
-    weight : number,
-    value : string
-}
+

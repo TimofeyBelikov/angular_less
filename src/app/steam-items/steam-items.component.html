@@ -1,110 +1,37 @@
-<div style="
-    display: flex; 
-    flex-direction: row; 
-    height: 100px;
-    padding-left: 10rem;
-    background: #171d25">
-
-    <div *ngFor="let user of users" (click)="loadUser(user.id)" style="
-        cursor: pointer;
-        padding-top: 45px;
-        padding-left: 7px;
-        padding-right: 7px;
-        padding-bottom: 7px;
-        border-bottom-width: 10px;
-        font-size: 16px;
-        font-family: Motiva Sans, Twemoji, Noto Sans, Helvetica, sans-serif;
-        font-weight: 500;
-        text-transform: uppercase;
-        ">
-        <span class="user-category" style="
-            line-height: 16px;
-            color : rgb(220, 222, 223);
-            font-size: 24px;
-            font-family: Motiva Sans, Twemoji, Noto Sans, Helvetica, sans-serif;
-            font-weight: 500;
-            text-transform: uppercase;
-            ">{{user.name}}</span>
-        <div style="
-            margin-top: .25rem;
-            border-color: #1a9fff; 
-            border-bottom-width: 5px;
-            border-radius: 99px;" [ngClass]="{'selected-user' : isUserActive(user.name)}">
+<!-- Шапка -->
+<div class="header">
+    <div *ngFor="let user of users" 
+        class="menu-item"    
+        (click)="loadUser(user.id)">
+        <span>{{user.name}}</span>
+        <div class="border"
+            [ngClass]="{'selected' : isUserActive(user.name)}">
         </div>
     </div>
-    <!-- Всего щмота: {{total_count}} -->
 </div>
-<!-- Не дота -->
-<div class="wrapper" 
-    style="
-        background: #1b2838;
-        padding-top: 2rem;
-    ">
-    <div style="
-    margin-left: 10rem;
-    margin-right: 10rem;
-    padding-bottom: 1.25rem;
-    padding-top: 1.25rem;
-    background: #1c1e21;
-    ">
-        <img src="/assets/csgo.png" style=" padding-left: 1rem; width: 430px;">
+
+<div class="content-wrapper">
+    <div class="title">
+        <img src="/assets/csgo.png">
     </div>
 
-    <div style="
-    padding-left: 10rem;
-    padding-right: 10rem;
-    background: #1b2838;
-    display: flex; flex-direction: column;">
-        <img>
-        <div style="
-        display: flex; 
-        padding-left: 2rem;
-        padding-right: 2rem;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        background: #1c1e21;
-    ">
-            <div *ngFor="let item of items; let  i = $index" class="item"
-                [ngClass]="{'inspectable' : item?.inspect_url}" [ngStyle]="{'border-image' : item?.gradient_style}"
-                (click)="inspectItem(item?.inspect_url)" style="
-            margin: .25rem;
-            padding: .35rem;
-            background: #292929; 
-            width: 175px; 
-            height: 175px; 
-            display: flex; 
-            flex-direction: column;">
+    <div class="content">
+        <div class="content-list">
+            <div *ngFor="let item of items; let  i = $index" 
+                class="item"
+                [ngClass]="{'inspectable' : item?.inspect_url}" 
+                [ngStyle]="{'border-image' : item?.gradient_style}"
+                (click)="inspectItem(item?.inspect_url)">
 
-                <img class="item-image" [ngStyle]="{'filter' : item?.image_style}" style="aspect-ratio: auto;"
+                <img class="item-image" 
+                    [ngStyle]="{'filter' : item?.image_style}"
                     [src]="item.icon_url">
-
-                <span style="font-size: small; z-index: 999 !important;"
-                    [ngStyle]="{'color' : item?.name_color}">{{item?.name}}</span>
-
+                
+                    <span class="item-title"
+                    [ngStyle]="{'color' : item?.name_color}">
+                    {{item?.name}}
+                </span>
             </div>
         </div>
-
-
-
-    </div>
-    <!-- <div style="height: 100px;"></div> -->
-
-    <!-- ДОТА -->
-    <div style="display: flex; flex-wrap: wrap;" *ngIf="false">
-
-        <div *ngFor="let item of items_dota; let  i = $index" [ngClass]="{'inspectable' : item?.inspect_url}"
-            (click)="inspectItem(item?.inspect_url)" style="
-            margin: .25rem;
-            background: gray; 
-            width: 150px; 
-            height: 150px; 
-            display: flex; 
-            flex-direction: column;">
-
-            <img style="aspect-ratio: auto;" [src]="item.icon_url">
-            <span [ngStyle]="{'color' : item?.name_color}" style="font-size: small;">{{item?.name}}</span>
-
-        </div>
-
     </div>
 </div>
