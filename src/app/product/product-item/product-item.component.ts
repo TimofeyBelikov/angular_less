@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { timer } from 'rxjs';
 
 @Component({
@@ -8,6 +9,17 @@ import { timer } from 'rxjs';
 })
 
 export class ProductItemComponent implements OnInit {
+
+	buttonsList : button[] = [
+		{
+			name : 'Гугл',
+			ref : 'https://google.com/'
+		},
+		{
+			name : 'Яндекс',
+			ref : 'https://ya.ru/'
+		}
+	]
 
 	productList: ProductItem[] = [
 		// 0
@@ -30,12 +42,20 @@ export class ProductItemComponent implements OnInit {
 			category: 'Электроника',
 			count: 0,
 			enabled: true
+		},
+		{
+			name: 'Хрень',
+			category: 'Залупа',
+			count: 99,
+			enabled: true
 		}
 	]
 	// Джинсы
 	product: ProductItem = this.productList[1]
 
-	constructor() { }
+	constructor(
+		private _router : Router
+	) { }
 
 	ngOnInit() {
 	}
@@ -44,6 +64,16 @@ export class ProductItemComponent implements OnInit {
 		let index = this.productList.findIndex(product => product.name == _name)
 		this.productList[index].enabled = !(this.productList[index].enabled)
 	}
+
+	redirectFunction(ref : string){
+		console.warn('redirect', ref)
+		window.location.href=ref
+	}
+}
+
+interface button{
+	name : string,
+	ref : string,
 }
 
 interface ProductItem {

@@ -1,0 +1,22 @@
+.inspectable{
+    &:hover{
+        cursor: pointer;
+    }
+}
+.selected-user{
+    border-bottom-style: solid;
+}
+.user-category{
+    &:hover{
+        color : rgb(255, 255, 255) !important;
+        font-weight: 525 !important; 
+    }
+}
+.item{
+    border-width: 4px;
+    border-style: solid;
+    justify-content: center;
+    &:hover{
+        filter:brightness(1.4)
+    }
+}

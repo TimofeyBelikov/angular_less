@@ -10,8 +10,9 @@ import { HtmlPracticeModule } from './html-practice/html-practice.module';
 import { HtmlPracticeComponent } from './html-practice/html-practice.component';
 import { WorkflowModule } from './workflow/workflow.module';
 import { HttpClientModule } from '@angular/common/http';
-import { registerLocaleData } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { SteamItemsComponent } from './steam-items/steam-items.component';
 registerLocaleData(localeRu);
 
 @NgModule({
@@ -20,6 +21,10 @@ registerLocaleData(localeRu);
 	],
 	imports: [
 		RouterModule.forRoot([
+			{
+				path : 'items',
+				loadChildren : ()=>import('./steam-items/steam-items.module').then(m=>m.SteamItemsModule)
+			},
 			{
 				path : 'products',
 				component : ProductComponent,
@@ -37,12 +42,14 @@ registerLocaleData(localeRu);
 				loadChildren : ()=>import('./workflow/workflow.module').then(m=>m.WorkflowModule)
 			}
 		]),
+		CommonModule,
 		HttpClientModule,
 		BrowserModule,
 		ProductModule,
 		StoresModule,
 		HtmlPracticeModule,
-		WorkflowModule
+		WorkflowModule,
+		
 	],
 	providers: [
 		{ provide: LOCALE_ID, useValue: 'ru' }

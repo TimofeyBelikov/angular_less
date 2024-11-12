@@ -8,8 +8,18 @@
         display: flex;
         flex-direction: column;
     ">
+
     <span>Название товара:   {{item.name}}</span>
     <span>Категория:     {{item.category}}</span>
     <span>Количество:   {{item.count}}</span>
     <span>Доступен?:    {{item.enabled}}</span>
+
 </div>
+
+<button *ngFor="let item of buttonsList" 
+    style="width: 100px; height: 50px;"
+    (click)="redirectFunction(item.ref)">
+    <span>
+        {{item.name}}
+    </span>
+</button>
